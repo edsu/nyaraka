@@ -1,11 +1,6 @@
 ## nyaraka
 
-*nyaraka* will collect the data in an [Omeka] instance using its API and persist
-it to the file system.
-
-*nyaraka* is Swahili for *archive*.  *omeka* is a Swahili word that means "to
-display or layout goods or wares; to speak out; to spread out; to
-unpack".[^omeka]
+*nyaraka* will collect the data in an [Omeka] instance using its API and persist it to the file system.  *nyaraka* is Swahili for *archive*.  *omeka* is a Swahili word that means "to display or layout goods or wares; to speak out; to spread out; to unpack".[^omeka]
 
 ## Install
 

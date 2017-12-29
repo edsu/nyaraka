@@ -2,6 +2,7 @@
 
 import os
 import json
+import time
 import logging
 import argparse
 import requests
@@ -12,11 +13,12 @@ from urllib.parse import urlparse
 
 class OmekaDownloader:
 
-    def __init__(self, base_url, key=None, archive_dir=None):
+    def __init__(self, base_url, key=None, archive_dir=None, sleep=None):
         self.base_url = base_url.strip("/")
         self.api_url = base_url + "/api/"
         self.check_api()
         self.key = key
+        self.sleep = sleep
         if archive_dir == None:
             uri = urlparse(self.base_url)
             archive_dir = (uri.netloc + uri.path).replace("/", "-")
@@ -33,7 +35,7 @@ class OmekaDownloader:
         else:
             return True
 
-    def download(self):
+    def download(self, sleep=None):
         self.save_file(self.api_url + "site", join(self.archive_dir, "site.json"))
         total_items = self.get_total_items()
         item_count = 0
@@ -103,6 +105,8 @@ class OmekaDownloader:
             yield from results
             params['page'] += 1
 
+            self.do_sleep()
+
     def save_file(self, url, path):
         logging.info("saving %s to %s", url, path)
         directory = os.path.dirname(path)
@@ -120,24 +124,32 @@ class OmekaDownloader:
                 if chunk:
                     fh.write(chunk)
 
+        self.do_sleep()
+
     def get_total_items(self):
         count = 0
         for collection in self.paginator('collections'):
             count += collection['items']['count']
         return count
 
-def main(url, key=None):
+    def do_sleep(self):
+        if self.sleep:
+            time.sleep(self.sleep)
+
+def main(url, key=None, sleep=None):
     logging.basicConfig(
         filename='nyaraka.log',
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(message)s"
     )
-    omeka = OmekaDownloader(url, key=key)
+    omeka = OmekaDownloader(url, key=key, sleep=sleep)
     omeka.download()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("url", help="Omeka base url")
     parser.add_argument("--key", "-k", help="Your Omeka API key")
+    parser.add_argument("--sleep", "-s", type=float,
+        help="Seconds to sleep between requests to the Omeka API")
     args = parser.parse_args()
-    main(args.url, key=args.key)
+    main(args.url, key=args.key, sleep=args.sleep)

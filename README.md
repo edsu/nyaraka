@@ -17,6 +17,11 @@ If you want to collect private items and user information you'll need an API key
 
     nyaraka.py --key sldkjslkjflkjdflkjsdfkljs https://clevelandhistorical.org
 
+And if you want to be polite and sleep a little bit between requests you can use
+the --sleep option:
+
+    nyaraka.py --sleep .5 https://clevalandhistoridal.org
+
 ## Output
 
 Since Omeka's database schema requires one-to-many relationships between collections and items, and items and files, the metadata and media files are written 

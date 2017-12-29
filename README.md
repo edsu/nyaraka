@@ -17,8 +17,9 @@ If you want to collect private items and user information you'll need an API key
 
     nyaraka.py --key sldkjslkjflkjdflkjsdfkljs http://omeka.astrodomememories.org
 
-And if you want to be polite and sleep a little bit between requests you can use
-the --sleep option:
+nyaraka is single threaded, so there will only be one request issued at a time.
+But if you want to be extra polite and sleep a little bit between requests you
+can use the --sleep option:
 
     nyaraka.py --sleep .5 http://omeka.astrodomememories.org
 

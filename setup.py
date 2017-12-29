@@ -1,4 +1,4 @@
-version = '0.0.2'
+version = '0.0.3'
 
 from setuptools import setup
 
@@ -10,6 +10,6 @@ setup(
     author_email = 'ehs@pobox.com',
     py_modules = ['nyaraka',],
     scripts = ['nyaraka.py',],
-    install_requires = ['requests'],
+    install_requires = ['requests', 'tqdm'],
     description = 'Download Omeka data',
 )

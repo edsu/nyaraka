@@ -24,6 +24,8 @@ to disk using the following naming scheme:
 
     {archive-dir}/collections/{collection-id}/items/{item-id}/files/{file-id}/original.jpg
 
+For example:
+
 ```
 clevelandhistorical.org
 clevelandhistorical.org/site.json
@@ -43,9 +45,5 @@ clevelandhistorical.org/collections/1/items/1/files/1/square_thumbnail.jpg
 ```
 
 [1]: http://mars.gmu.edu/bitstream/handle/1920/6089/2008-02-20_IntroOmeka.pdf
-
 [application]: http://omeka.org/ 
-
 [Omeka]: http://omeka.org/
-
-

@@ -1,6 +1,9 @@
 ## nyaraka
 
-*nyaraka* will collect the data in an [Omeka] instance using its API and persist it to the file system.  *nyaraka* is Swahili for *archive*.  *omeka* is a Swahili word that means "to display or layout goods or wares; to speak out; to spread out; to unpack".[^omeka]
+*nyaraka* will collect the data in an [Omeka] instance using its API and persist
+it to the file system.  *nyaraka* is Swahili for *archive*.  *omeka* is a
+Swahili word that means "to display or layout goods or wares; to speak out; to
+spread out; to unpack".<sup>[1]</sup>
 
 ## Install
 
@@ -39,7 +42,7 @@ clevelandhistorical.org/collections/1/items/1/files/1/thumbnail.jpg
 clevelandhistorical.org/collections/1/items/1/files/1/square_thumbnail.jpg
 ```
 
-[^omeka]: http://mars.gmu.edu/bitstream/handle/1920/6089/2008-02-20_IntroOmeka.pdf
+[1]: http://mars.gmu.edu/bitstream/handle/1920/6089/2008-02-20_IntroOmeka.pdf
 
 [application]: http://omeka.org/ 
 

@@ -39,35 +39,52 @@ class OmekaDownloader:
         self.save_file(self.api_url + "site", join(self.archive_dir, "site.json"))
         total_items = self.get_total_items()
         item_count = 0
-        pbar = tqdm(total=total_items)
+        found = False
+        progress = tqdm(total=total_items)
         for collection in self.paginator('collections'):
+            found = True
             self.save_json(collection, 'collections', collection['id'], "collection.json")
-            for item in self.paginator('items', {'collection': collection['id']}):
-                pbar.update(1)
-                self.save_json(item, 'collections', collection['id'],
-                               'items', item['id'], 'item.json')
+            self.download_items(collection=collection['id'], progress=progress)
 
-                for file in self.paginator('files', {'item': item['id']}):
-                    self.save_json(file, 'collections', collection['id'], 
-                                   'items', item['id'], 'files', file['id'], 
-                                   'file.json')
+        if not found:
+            self.download_items(progress=progress)
 
-                    for name, url in file['file_urls'].items():
-                        if url:
-                            filename, ext = os.path.splitext(url)
-                            path = os.path.join(
-                                self.archive_dir,
-                                'collections', 
-                                str(collection['id']),
-                                'items',
-                                str(item['id']),
-                                'files',
-                                str(file['id']),
-                                name + ext
-                            )
-                            self.save_file(url, path)
-        pbar.close()
+        progress.close()
         logging.info("finished archiving %s", self.base_url)
+
+    def download_items(self, collection=None, progress=None):
+        if collection:
+            paginator = self.paginator('items', {'collection': collection})
+            prefix = os.path.join('collections', str(collection))
+        else:
+            paginator = self.paginator('items')
+            prefix = ''
+
+        for item in paginator:
+
+            if progress:
+                progress.update(1)
+
+            self.save_json(item, prefix, 'items', item['id'], 'item.json')
+
+            for file in self.paginator('files', {'item': item['id']}):
+
+                self.save_json(file, prefix, 'items', item['id'], 
+                    'files', file['id'], 'file.json')
+
+                for name, url in file['file_urls'].items():
+                    if url:
+                        filename, ext = os.path.splitext(url)
+                        path = os.path.join(
+                            self.archive_dir,
+                            prefix,
+                            'items',
+                            str(item['id']),
+                            'files',
+                            str(file['id']),
+                            name + ext
+                        )
+                        self.save_file(url, path)
 
     def save_json(self, obj, *path_parts):
         path_parts = map(str, path_parts)
@@ -128,8 +145,12 @@ class OmekaDownloader:
 
     def get_total_items(self):
         count = 0
+        found = False
         for collection in self.paginator('collections'):
+            found = True
             count += collection['items']['count']
+        if not found:
+            count = len(list(self.paginator('items')))
         return count
 
     def do_sleep(self):
@@ -152,4 +173,7 @@ if __name__ == "__main__":
     parser.add_argument("--sleep", "-s", type=float,
         help="Seconds to sleep between requests to the Omeka API")
     args = parser.parse_args()
-    main(args.url, key=args.key, sleep=args.sleep)
+    try:
+        main(args.url, key=args.key, sleep=args.sleep)
+    except KeyboardInterrupt:
+        print("\nstopped!\n")

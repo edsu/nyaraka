@@ -40,7 +40,8 @@ class OmekaDownloader:
         total_items = self.get_total_items()
         item_count = 0
         found = False
-        progress = tqdm(total=total_items)
+        progress = tqdm(total=total_items, unit='items')
+
         for collection in self.paginator('collections'):
             found = True
             self.save_json(collection, 'collections', collection['id'], "collection.json")
@@ -49,8 +50,25 @@ class OmekaDownloader:
         if not found:
             self.download_items(progress=progress)
 
+        # download extra resources
+        self.download_other_resources()
+
         progress.close()
         logging.info("finished archiving %s", self.base_url)
+
+    def download_other_resources(self):
+        # download resources other than collections and items
+        resp = requests.get(join(self.api_url, 'resources')).json()
+        for name, resource in resp.items():
+            # these are either not browsable or have already been downloaded 
+            if name in ('users', 'collections', 'items', 'files'):
+                continue
+            if name in ('site', 'resources'):
+                r = requests.get(resource['url']).json()
+                self.save_json(r, '%s.json' % name)
+            else:
+                for r in self.paginator(resource['url']):
+                    self.save_json(r, name, '%s.json' % r['id'])
 
     def download_items(self, collection=None, progress=None):
         if collection:
@@ -96,11 +114,13 @@ class OmekaDownloader:
         open(path, "w").write(json.dumps(obj, indent=2))
         return path
 
-    def paginator(self, url_path, params={}):
+    def paginator(self, url, params={}):
         if self.key:
             params['key'] = self.key
 
-        url = self.api_url + url_path
+        if not url.startswith('http'):
+            url = self.api_url + url
+
         params['page'] = 1
 
         while True:

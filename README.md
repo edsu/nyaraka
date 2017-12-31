@@ -11,17 +11,17 @@ goods or wares; to speak out; to spread out; to unpack".<sup>[1]</sup>
 
 ## Usage
 
-    nyaraka.py http://omeka.astrodomememories.org
+    nyaraka.py http://omeka.example.org
 
 If you want to collect private items and user information you'll need an API key:
 
-    nyaraka.py --key sldkjslkjflkjdflkjsdfkljs http://omeka.astrodomememories.org
+    nyaraka.py --key sldkjslkjflkjdflkjsdfkljs http://omeka.example.org
 
 nyaraka is single threaded, so there will only be one request issued at a time.
 But if you want to be extra polite and sleep a little bit between requests you
 can use the --sleep option:
 
-    nyaraka.py --sleep .5 http://omeka.astrodomememories.org
+    nyaraka.py --sleep .5 http://omeka.example.org
 
 ## Output
 
@@ -33,21 +33,21 @@ to disk using the following naming scheme:
 For example:
 
 ```
-omeka.astrodomememories.org
-omeka.astrodomememories.org/site.json
-omeka.astrodomememories.org/collections
-omeka.astrodomememories.org/collections/1
-omeka.astrodomememories.org/collections/1/collection.json
-omeka.astrodomememories.org/collections/1/items
-omeka.astrodomememories.org/collections/1/items/1
-omeka.astrodomememories.org/collections/1/items/1/item.json
-omeka.astrodomememories.org/collections/1/items/1/files
-omeka.astrodomememories.org/collections/1/items/1/files/1
-omeka.astrodomememories.org/collections/1/items/1/files/1/fullsize.jpg
-omeka.astrodomememories.org/collections/1/items/1/files/1/original.jpg
-omeka.astrodomememories.org/collections/1/items/1/files/1/file.json
-omeka.astrodomememories.org/collections/1/items/1/files/1/thumbnail.jpg
-omeka.astrodomememories.org/collections/1/items/1/files/1/square_thumbnail.jpg
+omeka.example.org
+omeka.example.org/site.json
+omeka.example.org/collections
+omeka.example.org/collections/1
+omeka.example.org/collections/1/collection.json
+omeka.example.org/collections/1/items
+omeka.example.org/collections/1/items/1
+omeka.example.org/collections/1/items/1/item.json
+omeka.example.org/collections/1/items/1/files
+omeka.example.org/collections/1/items/1/files/1
+omeka.example.org/collections/1/items/1/files/1/fullsize.jpg
+omeka.example.org/collections/1/items/1/files/1/original.jpg
+omeka.example.org/collections/1/items/1/files/1/file.json
+omeka.example.org/collections/1/items/1/files/1/thumbnail.jpg
+omeka.example.org/collections/1/items/1/files/1/square_thumbnail.jpg
 ```
 
 If collections are not used by the Omeka instance then the collections portion

@@ -50,6 +50,9 @@ omeka.astrodomememories.org/collections/1/items/1/files/1/thumbnail.jpg
 omeka.astrodomememories.org/collections/1/items/1/files/1/square_thumbnail.jpg
 ```
 
+If collections are not used by the Omeka instance then the collections portion
+of the path will be omitted.
+
 [1]: http://mars.gmu.edu/bitstream/handle/1920/6089/2008-02-20_IntroOmeka.pdf
 [application]: http://omeka.org/ 
 [Omeka]: http://omeka.org/
